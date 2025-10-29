@@ -7,11 +7,13 @@ import pandas as pd
 from io import BytesIO
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-from django.shortcuts import render
-from .models import Student, Teacher, HealthRecord, DoctorNote
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from .models import Student, Teacher, HealthRecord, DoctorNote
+
+#new imports
+from django.shortcuts import render     
+from .models import Student, Teacher, HealthRecord, DoctorNote  
+from django.shortcuts import render, redirect, get_object_or_404    
+from django.contrib import messages   
+from .models import Student, Teacher, HealthRecord, DoctorNote     
 
 # Doctor login (fixed for now)
 def login_view(request):
@@ -210,6 +212,7 @@ def dashboard(request):
         "records": all_records,
     })
 
+#new features
 #view all patients
 def view_all_patients(request):
     # Fetch all students and teachers from the database
