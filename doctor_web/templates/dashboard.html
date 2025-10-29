@@ -27,6 +27,12 @@
           <button type="submit" name="fetch_btn" class="btn btn-light w-100">Fetch</button>
         </form>
         <hr class="bg-light">
+        
+        <!--view patient feat-->
+        <a href="{% url 'view_all_patients' %}" class="btn btn-light w-100 mt-3">
+            View All Patients
+        </a>
+
         <div class="text-center">
           <h6 class="mt-3">Doctor: {{ request.session.doctor }}</h6>
         </div>

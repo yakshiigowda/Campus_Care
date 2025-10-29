@@ -7,7 +7,8 @@ import pandas as pd
 from io import BytesIO
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-
+from django.shortcuts import render
+from .models import Student, Teacher, HealthRecord, DoctorNote
 
 # Doctor login (fixed for now)
 def login_view(request):
@@ -205,3 +206,16 @@ def dashboard(request):
         "teachers": teachers,
         "records": all_records,
     })
+
+#view all patients
+def view_all_patients(request):
+    # Fetch all students and teachers from the database
+    all_students = Student.objects.all()
+    all_teachers = Teacher.objects.all()
+    
+    # Pass them to the template
+    context = {
+        'students': all_students,
+        'teachers': all_teachers,
+    }
+    return render(request, 'view_all_patients.html', context)
