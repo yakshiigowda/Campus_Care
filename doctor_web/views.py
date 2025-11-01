@@ -7,8 +7,13 @@ import pandas as pd
 from io import BytesIO
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-from django.shortcuts import render
-from .models import Student, Teacher, HealthRecord, DoctorNote
+
+#new imports
+from django.shortcuts import render     
+from .models import Student, Teacher, HealthRecord, DoctorNote  
+from django.shortcuts import render, redirect, get_object_or_404    
+from django.contrib import messages   
+from .models import Student, Teacher, HealthRecord, DoctorNote     
 
 # Doctor login (fixed for now)
 def login_view(request):
@@ -207,6 +212,7 @@ def dashboard(request):
         "records": all_records,
     })
 
+#new features
 #view all patients
 def view_all_patients(request):
     # Fetch all students and teachers from the database
@@ -219,3 +225,32 @@ def view_all_patients(request):
         'teachers': all_teachers,
     }
     return render(request, 'view_all_patients.html', context)
+
+def delete_student(request, usn):
+    # Only allow POST requests to prevent accidental deletion
+    if request.method == 'POST':
+        # Find the student by their USN, or show a 404 page if not found
+        student = get_object_or_404(Student, usn=usn)
+        student_name = student.name
+        student.delete()
+        
+        # Send a success message back to the user
+        messages.success(request, f"Student '{student_name}' has been deleted successfully.")
+        
+    # Redirect back to the all patients list, no matter what
+    return redirect('view_all_patients')
+
+
+def delete_teacher(request, isn):
+    # Only allow POST requests
+    if request.method == 'POST':
+        # Find the teacher by their ISN
+        teacher = get_object_or_404(Teacher, isn=isn)
+        teacher_name = teacher.name
+        teacher.delete()
+        
+        # Send a success message
+        messages.success(request, f"Teacher '{teacher_name}' has been deleted successfully.")
+        
+    # Redirect back to the all patients list
+    return redirect('view_all_patients')
